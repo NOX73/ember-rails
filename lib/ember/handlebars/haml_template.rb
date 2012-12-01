@@ -22,9 +22,11 @@ module Ember
 
       def build_view_context
         ApplicationController.new.view_context.tap do |context|
-          context.controller.request ||= ActionController::TestRequest.new
-          context.request            ||= context.controller.request
-          context.params             ||= {}
+          if defined?(ActionController::TestRequest)
+            context.controller.request ||= ActionController::TestRequest.new
+            context.request            ||= context.controller.request
+            context.params             ||= {}
+          end
         end
       end
 
